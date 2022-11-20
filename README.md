@@ -1,58 +1,23 @@
+This is a [Next.js](https://nextjs.org/), [MUI v5](https://mui.com/) and [Typescript](https://github.com/microsoft/TypeScript) starter. You can use this to start your Next.js + MUI + Typescript development faster and easier.
 
-![Stargazers](https://img.shields.io/github/stars/miami78/nextjs-mui-boilerplate?style=for-the-badge)
-![Forks](https://img.shields.io/github/forks/miami78/nextjs-mui-boilerplate?label=FORKS&style=for-the-badge)
-![License](https://img.shields.io/github/license/miami78/nextjs-mui-boilerplate?style=for-the-badge)
-![Issues](https://img.shields.io/github/issues/miami78/nextjs-mui-boilerplate?color=yellow&label=ISSUES&style=for-the-badge)
+## Getting Started
 
-
-A JavaScript starter for Next.js that includes all you need to build your next 🦄 project.
-
-## Technologies Used
-
-- [Nextjs](https://nextjs.org/)
-- [Material UI](https://mui.com/)
-- [Eslint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
-- [Husky](https://typicode.github.io/husky/#/)
-
-Also includes:
-
-- [Absolute imports](https://nextjs.org/docs/advanced-features/module-path-aliases)
-- [AirBnB Style Guides for React](https://github.com/airbnb/javascript/tree/master/react)
-
-# Getting started
-
-```
-1. git clone https://github.com/miami78/nextjs-mui-boilerplate
-
-2. cd nextjs-mui-boilerplate
-
-3. yarn && yarn dev or npm install && npm run dev if you prefer not to use yarn.
-
-```
-
-# Usage
-
-### Development server
+1. First, Clone the project.
+2. (Optional) If you want, You can also change the project name to whatever your like and also add the project name in the `package.json`.
+3. Run this command in the project directory to install dependencies:
 
 ```bash
-yarn start / npm start
+npm i
+# or
+yarn
 ```
 
-You can view the development server at `localhost:3000`.
-
-### Production build
+4. You can run dev server with the following command:
 
 ```bash
- yarn build / npm run build
+npm run dev
+# or
+yarn dev
 ```
 
-## Contributing
-
-1. Fork this repository;
-2. Create your branch: ``git checkout -b my-new-feature``
-3. Commit your changes: ``git commit -m 'Add some feature'``
-4. Push to the branch: ``git push origin my-new-feature``
-
-
-Made by [Larry Miami](https://github.com/miami78)
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
