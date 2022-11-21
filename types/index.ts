@@ -35,3 +35,5 @@ export type PhotoSortWrapper = {
   photo: Photo
   score: PhotoScore
 }
+
+export type SwitcherState = 'map' | 'list'
