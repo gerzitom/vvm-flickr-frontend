@@ -14,10 +14,6 @@ export const ItemsMap: FC<Props> = ({center, items}) => {
       height={800}
       defaultCenter={myCenter} defaultZoom={14}
     >
-      <Marker
-        width={50}
-        anchor={myCenter}
-      />
       {items.map((item) => (
         <Marker
           key={item.photo.id}
@@ -29,6 +25,10 @@ export const ItemsMap: FC<Props> = ({center, items}) => {
           </MarkerImageWrapper>
         </Marker>
       ))}
+      <Marker
+        width={50}
+        anchor={myCenter}
+      />
     </Map>
   )
 }

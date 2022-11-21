@@ -12,18 +12,18 @@ export const FlickrPhotoWithScore: FC<Props> = ({ wrapper }) => {
     <div>
       <FlickrPhoto photo={wrapper.photo}>
         <ScoreContainer>
-          {/*<Typography variant={'overline'}>*/}
-          {/*  Geo distance: <b>{wrapper.score.geoDistance}</b>*/}
-          {/*</Typography>*/}
-          {/*<Typography variant={'overline'}>*/}
-          {/*  Title score: <b>{wrapper.score.titleDistance}</b>*/}
-          {/*</Typography>*/}
-          {/*<Typography variant={'overline'}>*/}
-          {/*  Author score: <b>{wrapper.score.authorDistance}</b>*/}
-          {/*</Typography>*/}
           <Divider sx={{ my: 1 }} />
           <Typography variant={'overline'}>
-            Total score: <b>{wrapper.score.total}</b>
+            Total score: <b>{wrapper.score}</b>
+          </Typography>
+          <Typography variant={'overline'}>
+            Geo distance: <b>{wrapper.scoreStats.geoDistance}</b>
+          </Typography>
+          <Typography variant={'overline'}>
+            Title score: <b>{wrapper.scoreStats.titleDistance}</b>
+          </Typography>
+          <Typography variant={'overline'}>
+            Author score: <b>{wrapper.scoreStats.authorDistance}</b>
           </Typography>
         </ScoreContainer>
       </FlickrPhoto>

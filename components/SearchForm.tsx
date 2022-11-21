@@ -14,15 +14,23 @@ type Props = {
 export const SearchForm: FC<Props> = ({ submit }) => {
   const defaultValues: SearchData = {
     query: '',
-    dateFrom: undefined,
-    dateTo: undefined,
+    dateFrom: null,
+    dateTo: null,
     geo: undefined
   }
-  const { control, handleSubmit, getValues, setValue, watch } = useForm<SearchData>({ defaultValues })
+  const { control, handleSubmit, getValues, setValue, watch, setError, register, formState, clearErrors } = useForm<SearchData>({ defaultValues })
   const positionValue = useMemo(() => {
     const geo = watch('geo')
     return [geo?.lat ?? 0, geo?.lng ?? 0]
   }, [watch('geo')])
+
+  const submitValidation: SubmitHandler<SearchData> = (data) => {
+    clearErrors()
+    if(!data.query) setError('geo', {message: 'Query must not be empty', type: 'required'})
+    else {
+      submit(data)
+    }
+  }
   return (
     <Card sx={{ p: 4 }}>
       <Typography sx={{ mb: 3 }} variant={'h3'}>
@@ -32,8 +40,9 @@ export const SearchForm: FC<Props> = ({ submit }) => {
         <Controller
           name={'query'}
           control={control}
+          rules={{required: true}}
           render={({ field }) => (
-            <TextField fullWidth label={'Query string'} {...field} />
+            <TextField fullWidth label={'Query string'} {...field} error={!!formState.errors.query} helperText={formState.errors.query ? 'Query must not be empty' : ''} />
           )}
         />
         <Controller

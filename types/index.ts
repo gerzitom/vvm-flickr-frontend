@@ -4,8 +4,8 @@ export type Location = {
 }
 export type SearchData = {
   query: string
-  dateFrom?: Date
-  dateTo?: Date
+  dateFrom: Date | null
+  dateTo: Date | null
   geo?: Location
 }
 export type FormSearchValues = Omit<SearchData, 'geo'>
@@ -15,10 +15,16 @@ export type GeoData = {
   latitude: number
   accuracy: number
 }
+
+export type Author = {
+  username:string
+  name:string
+  imageUrl:string
+}
 export type Photo = {
   url: string
   title: string
-  author: string
+  author: Author
   id: string
   dateTaken: Date
   datePosted: Date
@@ -29,11 +35,11 @@ export type PhotoScore = {
   geoDistance: number
   titleDistance: number
   authorDistance: number
-  total: number
 }
 export type PhotoSortWrapper = {
   photo: Photo
-  score: PhotoScore
+  score: number
+  scoreStats: PhotoScore
 }
 
 export type SwitcherState = 'map' | 'list'

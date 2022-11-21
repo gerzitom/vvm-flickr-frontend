@@ -11,6 +11,9 @@ type Props = {
 export const PigeonMap: FC<Props> = ({position, setLocation}) => {
   const { coords, isGeolocationEnabled, getPosition, isGeolocationAvailable } = useGeolocated()
   useEffect(() => getPosition(), [])
+  useEffect(() => {
+    if(coords) setLocation({lat: String(coords!.latitude), lng: String(coords!.longitude)})
+  }, [coords])
   if(isGeolocationEnabled && !coords) return <CircularProgress/>
   return (
     <Map height={300}
