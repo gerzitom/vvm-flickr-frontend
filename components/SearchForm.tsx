@@ -1,5 +1,15 @@
 import React, {FC, useMemo} from 'react'
-import { Button, Card, TextField, Typography } from '@mui/material'
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  Card, Checkbox,
+  FormControlLabel,
+  Paper, Slider,
+  TextField,
+  Typography
+} from '@mui/material'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { DatePicker } from '@mui/x-date-pickers'
 import styled from 'styled-components'
@@ -7,6 +17,8 @@ import {FormSearchValues, SearchData} from '../types'
 import {MapComponent} from "./MapComponent";
 import L from "leaflet";
 import {PigeonMap} from "./map/PigeonMap";
+import {ScaleSlider} from "./ScaleSlider";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 type Props = {
   submit: SubmitHandler<SearchData>
@@ -16,21 +28,18 @@ export const SearchForm: FC<Props> = ({ submit }) => {
     query: '',
     dateFrom: null,
     dateTo: null,
-    geo: undefined
+    geo: undefined,
+    geoScale: 5,
+    titleScale: 1,
+    pagesToFetch: 20,
+    nameIncludesBonus: true
   }
-  const { control, handleSubmit, getValues, setValue, watch, setError, register, formState, clearErrors } = useForm<SearchData>({ defaultValues })
+  const { control, handleSubmit, setValue, watch, formState } = useForm<SearchData>({ defaultValues })
   const positionValue = useMemo(() => {
     const geo = watch('geo')
     return [geo?.lat ?? 0, geo?.lng ?? 0]
   }, [watch('geo')])
 
-  const submitValidation: SubmitHandler<SearchData> = (data) => {
-    clearErrors()
-    if(!data.query) setError('geo', {message: 'Query must not be empty', type: 'required'})
-    else {
-      submit(data)
-    }
-  }
   return (
     <Card sx={{ p: 4 }}>
       <Typography sx={{ mb: 3 }} variant={'h3'}>
@@ -45,6 +54,7 @@ export const SearchForm: FC<Props> = ({ submit }) => {
             <TextField fullWidth label={'Query string'} {...field} error={!!formState.errors.query} helperText={formState.errors.query ? 'Query must not be empty' : ''} />
           )}
         />
+
         <Controller
           name={'dateFrom'}
           control={control}
@@ -74,6 +84,58 @@ export const SearchForm: FC<Props> = ({ submit }) => {
         <Button variant={'contained'} type={'submit'}>
           Search
         </Button>
+
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>Search settings</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>Title scale</Typography>
+            <Controller
+              name={'titleScale'}
+              control={control}
+              render={({ field }) => (
+                <ScaleSlider sx={{mb: 4}} {...field}  />
+              )}
+            />
+
+            <Typography>Geo scale</Typography>
+            <Controller
+              name={'geoScale'}
+              control={control}
+              render={({ field }) => (
+                <ScaleSlider sx={{mb: 4}} {...field} />
+              )}
+            />
+
+            <Typography>Pages to load</Typography>
+            <Controller
+              name={'pagesToFetch'}
+              control={control}
+              render={({ field }) => (
+                <Slider
+                  valueLabelDisplay="auto"
+                  step={10}
+                  min={10}
+                  max={100}
+                  {...field}
+                />
+              )}
+            />
+
+            <Controller
+              name={'nameIncludesBonus'}
+              control={control}
+              render={({ field }) => (
+                <FormControlLabel control={<Checkbox defaultChecked {...field} />} label="Allow bonus when query string is included in photo name." />
+              )}
+            />
+          </AccordionDetails>
+        </Accordion>
       </StyledForm>
     </Card>
   )

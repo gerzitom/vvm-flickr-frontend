@@ -7,6 +7,10 @@ export type SearchData = {
   dateFrom: Date | null
   dateTo: Date | null
   geo?: Location
+  pagesToFetch: number
+  geoScale: number
+  titleScale: number
+  nameIncludesBonus: boolean
 }
 export type FormSearchValues = Omit<SearchData, 'geo'>
 

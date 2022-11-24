@@ -22,20 +22,27 @@ const Main: FC<Props> = () => {
   const [itemsFromSearch, setItemsFromSearch] = useState<PhotoSortWrapper[]>([])
   const [searchData, setSearchData] = useState<SearchData>()
   const [loading, setLoading] = useState(false)
+  const [flickrLoading, setFlickrLoading] = useState(false)
   const submit:SubmitHandler<SearchData> = async (data: SearchData) => {
     setSearchData(data)
     setLoading(true)
-    const flickr = await axios.post<Photo[]>(
+    setFlickrLoading(true)
+    axios.post<Photo[]>(
       'http://localhost:8080/search/flickr',
       data
     )
-    const rebalanced = await axios.post<PhotoSortWrapper[]>(
+      .then(response => {
+        setFlickrLoading(false)
+        setItemsFromFlickr(response.data)
+      })
+    axios.post<PhotoSortWrapper[]>(
       'http://localhost:8080/search/rebalanced',
       data
     )
-    setItemsFromFlickr(flickr.data)
-    setItemsFromSearch(rebalanced.data)
-    setLoading(false)
+      .then(response => {
+        setLoading(false)
+        setItemsFromSearch(response.data)
+      })
   }
 
   const [switcherState, setSwitcherState] = React.useState<SwitcherState>('list');
@@ -54,7 +61,7 @@ const Main: FC<Props> = () => {
             <ListMapSwitcher state={switcherState} setState={setSwitcherState}/>
           </Box>
           {switcherState === 'list' && (
-            <ItemsList flickrPhotos={itemsFromFlickr} searchPhotos={itemsFromSearch} loading={loading}/>
+            <ItemsList flickrPhotos={itemsFromFlickr} searchPhotos={itemsFromSearch} loading={loading} flickrLoading={flickrLoading}/>
           )}
           {switcherState === 'map' && searchData && (
             <ItemsMap center={searchData!.geo!} items={itemsFromSearch}/>

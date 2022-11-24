@@ -22,7 +22,6 @@ const Home: NextPage = () => {
 }
 
 const StyledContainer = styled.div`
-  background: rgb(236, 236, 236);
   padding: 0 2em;
   min-height: 100vh;
 `

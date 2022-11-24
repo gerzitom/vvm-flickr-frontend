@@ -1,6 +1,7 @@
 import React, {FC} from "react"
 import {Map, Marker} from "pigeon-maps";
-import {Location, PhotoSortWrapper} from "../types";
+import Cluster from 'pigeon-cluster'
+import {GeoData, Location, PhotoSortWrapper} from "../types";
 import styled from "styled-components";
 
 type Props = {
@@ -9,22 +10,28 @@ type Props = {
 }
 export const ItemsMap: FC<Props> = ({center, items}) => {
   const myCenter:[number, number] = [Number(center.lat), Number(center.lng)]
+  const toPigeonCoords = (location: GeoData):[number, number] => {
+    return [Number(location.latitude), Number(location.longitude)]
+  }
   return (
     <Map
       height={800}
-      defaultCenter={myCenter} defaultZoom={14}
+      defaultCenter={myCenter} defaultZoom={10}
     >
-      {items.map((item) => (
-        <Marker
-          key={item.photo.id}
-          width={50}
-          anchor={[Number(item.photo.geo.latitude), Number(item.photo.geo.longitude)]}
-        >
-          <MarkerImageWrapper>
-            <img src={item.photo.url}/>
-          </MarkerImageWrapper>
-        </Marker>
-      ))}
+      <Cluster>
+        {items.map((item) => (
+          <Marker
+            key={toPigeonCoords(item.photo.geo).toString()}
+            width={50}
+            anchor={toPigeonCoords(item.photo.geo)}
+            payload={1}
+          >
+            <MarkerImageWrapper>
+              <img src={item.photo.url}/>
+            </MarkerImageWrapper>
+          </Marker>
+        ))}
+      </Cluster>
       <Marker
         width={50}
         anchor={myCenter}
