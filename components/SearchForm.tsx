@@ -31,7 +31,7 @@ export const SearchForm: FC<Props> = ({ submit }) => {
     geo: undefined,
     geoScale: 5,
     titleScale: 1,
-    pagesToFetch: 20,
+    pagesToFetch: 60,
     nameIncludesBonus: true
   }
   const { control, handleSubmit, setValue, watch, formState } = useForm<SearchData>({ defaultValues })
@@ -42,7 +42,7 @@ export const SearchForm: FC<Props> = ({ submit }) => {
 
   return (
     <Card sx={{ p: 4 }}>
-      <Typography sx={{ mb: 3 }} variant={'h3'}>
+      <Typography sx={{ mb: 3 }} variant={'h4'}>
         Flickr map search
       </Typography>
       <StyledForm onSubmit={handleSubmit(submit)}>
@@ -121,7 +121,7 @@ export const SearchForm: FC<Props> = ({ submit }) => {
                   valueLabelDisplay="auto"
                   step={10}
                   min={10}
-                  max={100}
+                  max={200}
                   {...field}
                 />
               )}

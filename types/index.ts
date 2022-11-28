@@ -47,3 +47,10 @@ export type PhotoSortWrapper = {
 }
 
 export type SwitcherState = 'map' | 'list'
+
+
+export type SocketResponseProgress = {
+totalPhotos: number
+progress: number;
+payload: PhotoSortWrapper[]
+}

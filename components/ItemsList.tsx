@@ -1,5 +1,5 @@
 import React, {FC} from "react"
-import {Photo, PhotoSortWrapper} from "../types";
+import {Photo, PhotoSortWrapper, SocketResponseProgress} from "../types";
 import {Alert, Typography} from "@mui/material";
 import {PhotoSkeleton} from "./PhotoSkeleton";
 import {FlickrPhoto} from "./FlickrPhoto";
@@ -9,19 +9,20 @@ import styled from "styled-components";
 type Props = {
   flickrPhotos: Photo[]
   searchPhotos: PhotoSortWrapper[]
+  socketSearchPhotos?: SocketResponseProgress
   flickrLoading: boolean
   loading: boolean
 }
-export const ItemsList: FC<Props> = ({flickrPhotos, searchPhotos, loading, flickrLoading}) => {
+export const ItemsList: FC<Props> = ({flickrPhotos, searchPhotos, loading, flickrLoading, socketSearchPhotos}) => {
   return (
     <StyledContainer>
       <div>
-        <Typography sx={{mb: 2}} variant={'h5'}>Flickr search</Typography>
-        {flickrLoading && <PhotoSkeleton />}
-        {!flickrLoading && flickrPhotos.map((item) => (
-          <FlickrPhoto photo={item} key={item.id} />
+        <Typography sx={{mb: 2}} variant={'h5'}>Socket search</Typography>
+        {socketSearchPhotos && socketSearchPhotos.payload.map((item) => (
+          <FlickrPhotoWithScore wrapper={item} key={item.photo.id}/>
         ))}
-        {!flickrLoading && flickrPhotos.length === 0 && <Alert severity={'warning'}>No items available</Alert>}
+        {!socketSearchPhotos && <PhotoSkeleton />}
+        {socketSearchPhotos && socketSearchPhotos.payload.length === 0 && <Alert severity={'warning'}>No items available</Alert>}
       </div>
       <div>
         <Typography sx={{mb: 2}} variant={'h5'}>Reranking search</Typography>
@@ -30,6 +31,14 @@ export const ItemsList: FC<Props> = ({flickrPhotos, searchPhotos, loading, flick
           <FlickrPhotoWithScore wrapper={item} key={item.photo.id}/>
         ))}
         {!loading && searchPhotos.length === 0 && <Alert severity={'warning'}>No items available</Alert>}
+      </div>
+      <div>
+        <Typography sx={{mb: 2}} variant={'h5'}>Flickr search</Typography>
+        {flickrLoading && <PhotoSkeleton />}
+        {!flickrLoading && flickrPhotos.map((item) => (
+          <FlickrPhoto photo={item} key={item.id} />
+        ))}
+        {!flickrLoading && flickrPhotos.length === 0 && <Alert severity={'warning'}>No items available</Alert>}
       </div>
     </StyledContainer>
   )

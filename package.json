@@ -28,6 +28,9 @@
     "react-geolocated": "^4.0.3",
     "react-hook-form": "^7.39.4",
     "react-leaflet": "^4.1.0",
+    "react-stomp": "^5.1.0",
+    "react-use-sockjs": "^0.0.2",
+    "react-use-websocket": "^4.2.0",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
