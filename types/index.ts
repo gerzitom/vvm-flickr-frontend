@@ -1,3 +1,4 @@
+export type SearchStrategy = 'socket' | 'pararel' | 'normal'
 export type Location = {
   lat: string
   lng: string

@@ -5,7 +5,7 @@ import {
   FormSearchValues,
   Photo,
   PhotoSortWrapper,
-  SearchData,
+  SearchData, SearchStrategy,
   SocketResponseProgress,
   SwitcherState
 } from '../../../types'
@@ -34,16 +34,20 @@ import {ItemsList} from "../../ItemsList";
 import {SocketItems} from "../SocketItems";
 import useSockjs from "react-use-sockjs";
 import {SocketProgress} from "../../SocketProgress";
+import {useBasicItemsSearch} from "../../../hooks/useBasicItemsSearch";
+import {useSocketItemsSearch} from "../../../hooks/useSocketItemsSearch";
 
 
 type Props = {}
 const Main: FC<Props> = () => {
-  const [itemsFromFlickr, setItemsFromFlickr] = useState<Photo[]>([])
-  const [itemsFromSearch, setItemsFromSearch] = useState<PhotoSortWrapper[]>([])
+  const {items:itemsFromFlickr, loading: flickrLoading} = useBasicItemsSearch<Photo>('http://localhost:8080/search/flickr')
+  const {items:itemsFromSearch, loading: searchLoading} = useBasicItemsSearch<PhotoSortWrapper>('http://localhost:8080/search/rebalanced')
+  const {items: socketItems, loading: socketLoading, search: searchWithSocket} = useSocketItemsSearch()
+
+
   const [socketItemsFromSearch, setSocketItemsFromSearch] = useState<SocketResponseProgress|undefined>()
   const [searchData, setSearchData] = useState<SearchData>()
   const [loading, setLoading] = useState(false)
-  const [flickrLoading, setFlickrLoading] = useState(false)
   const {sendJsonMessage, connect, client} = useSockjs({
     url: 'http://localhost:8080/search',
     topics: ['/topic/news'],
@@ -53,7 +57,7 @@ const Main: FC<Props> = () => {
     autoReconnect: true
   })
   console.log(client)
-  const submit:SubmitHandler<SearchData> = async (data: SearchData) => {
+  const submit = async (data: SearchData, strategy: SearchStrategy) => {
     setSearchData(data)
     sendJsonMessage('/app/search', data)
     // setLoading(true)
@@ -76,30 +80,28 @@ const Main: FC<Props> = () => {
     //   })
   }
 
-  const [switcherState, setSwitcherState] = React.useState<SwitcherState>('list');
-
   return (
     <>
       <Container>
         <div>
           <Button onClick={connect} >Connect</Button>
-          <SearchForm submit={submit}/>
+          <SearchForm search={submit}/>
         </div>
         <div>
           <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <Typography variant={'h3'} sx={{ mt: 3, mb: 2 }}>
               Found photos
             </Typography>
-            <ListMapSwitcher state={switcherState} setState={setSwitcherState}/>
           </Box>
           {socketItemsFromSearch && <SocketProgress progress={socketItemsFromSearch}/>}
-          {/*<SocketItems searchData={searchData} newChunk={handleNewChunkFromSocket}/>*/}
-          {switcherState === 'list' && (
-            <ItemsList flickrPhotos={itemsFromFlickr} searchPhotos={itemsFromSearch} loading={loading} flickrLoading={flickrLoading} socketSearchPhotos={socketItemsFromSearch}/>
-          )}
-          {switcherState === 'map' && searchData && (
-            <ItemsMap center={searchData!.geo!} items={itemsFromSearch}/>
-          )}
+          {searchData && <ItemsMap center={searchData!.geo!} items={socketItemsFromSearch.payload}/>}
+          <ItemsList
+            flickrPhotos={itemsFromFlickr}
+            searchPhotos={itemsFromSearch}
+            loading={loading}
+            flickrLoading={flickrLoading}
+            socketSearchPhotos={socketItemsFromSearch}
+          />
         </div>
       </Container>
     </>

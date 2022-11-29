@@ -1,4 +1,4 @@
-import React, {FC, useMemo} from 'react'
+import React, {FC, useMemo, useState} from 'react'
 import {
   Accordion,
   AccordionDetails,
@@ -13,17 +13,19 @@ import {
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { DatePicker } from '@mui/x-date-pickers'
 import styled from 'styled-components'
-import {FormSearchValues, SearchData} from '../types'
+import {FormSearchValues, SearchData, SearchStrategy} from '../types'
 import {MapComponent} from "./MapComponent";
 import L from "leaflet";
 import {PigeonMap} from "./map/PigeonMap";
 import {ScaleSlider} from "./ScaleSlider";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {ChooseFetchStrategy} from "./ChooseFetchStrategy";
 
 type Props = {
-  submit: SubmitHandler<SearchData>
+  submit: SubmitHandler<SearchData>,
+  loadTime: string
 }
-export const SearchForm: FC<Props> = ({ submit }) => {
+export const SearchForm: FC<Props> = ({ submit, loadTime }) => {
   const defaultValues: SearchData = {
     query: '',
     dateFrom: null,
@@ -35,6 +37,7 @@ export const SearchForm: FC<Props> = ({ submit }) => {
     nameIncludesBonus: true
   }
   const { control, handleSubmit, setValue, watch, formState } = useForm<SearchData>({ defaultValues })
+  const [strategy, setStrategy] = useState<SearchStrategy>('socket')
   const positionValue = useMemo(() => {
     const geo = watch('geo')
     return [geo?.lat ?? 0, geo?.lng ?? 0]
@@ -84,6 +87,7 @@ export const SearchForm: FC<Props> = ({ submit }) => {
         <Button variant={'contained'} type={'submit'}>
           Search
         </Button>
+        <Typography variant={'overline'}>Load time: {loadTime}</Typography>
 
         <Accordion>
           <AccordionSummary

@@ -3,18 +3,23 @@ import React, {FC} from "react"
 import {SocketResponseProgress} from "../types";
 
 type Props = {
-  progress: SocketResponseProgress
+  totalPhotos: number,
+  progress: number,
+  loadTime: string
 }
-export const SocketProgress: FC<Props> = ({progress}) => {
+export const SocketProgress: FC<Props> = ({totalPhotos, progress, loadTime}) => {
   return (
-    <Card variant={'outlined'} sx={{p: 2}}>
-      <Typography variant={'overline'}>Items searched: {progress.totalPhotos}</Typography>
+    <Card variant={'outlined'} sx={{p: 2, mb: 4}}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Typography variant={'overline'}>Items searched: {totalPhotos}</Typography>
+        <Typography variant={'overline'}>Load time: {loadTime}</Typography>
+      </Box>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box sx={{ width: '100%', mr: 1 }}>
-          <LinearProgress variant="determinate" value={progress.progress} />
+          <LinearProgress variant="determinate" value={progress} />
         </Box>
         <Box sx={{ minWidth: 35 }}>
-          <Typography variant="body2" color="text.secondary">{`${progress.progress}%`}</Typography>
+          <Typography variant="body2" color="text.secondary">{`${Math.round(progress)}%`}</Typography>
         </Box>
       </Box>
     </Card>
