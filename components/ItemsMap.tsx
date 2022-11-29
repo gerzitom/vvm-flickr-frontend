@@ -1,8 +1,10 @@
 import React, {FC} from "react"
 import {Map, Marker} from "pigeon-maps";
+// @ts-ignore
 import Cluster from 'pigeon-cluster'
 import {GeoData, Location, PhotoSortWrapper} from "../types";
 import styled from "styled-components";
+import { stamenToner } from 'pigeon-maps/providers'
 
 type Props = {
   center: Location
@@ -15,11 +17,11 @@ export const ItemsMap: FC<Props> = ({center, items}) => {
   }
   return (
     <Map
-      height={800}
-      defaultCenter={myCenter} defaultZoom={10}
+      height={500}
+      defaultCenter={myCenter} defaultZoom={8}
     >
       <Cluster>
-        {items.map((item) => (
+        {items.reverse().map((item) => (
           <Marker
             key={toPigeonCoords(item.photo.geo).toString()}
             width={50}

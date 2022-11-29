@@ -1,3 +1,4 @@
+export type SearchStrategy = 'socket' | 'pararel' | 'normal'
 export type Location = {
   lat: string
   lng: string
@@ -47,3 +48,10 @@ export type PhotoSortWrapper = {
 }
 
 export type SwitcherState = 'map' | 'list'
+
+
+export type SocketResponseProgress = {
+totalPhotos: number
+progress: number;
+payload: PhotoSortWrapper[]
+}
