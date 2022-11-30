@@ -3,11 +3,12 @@ import {SearchForm} from "../SearchForm";
 import {SocketProgress} from "../SocketProgress";
 import {SearchPhotos} from "../PhotosList/SearchPhotos";
 import {FlickrPhotos} from "../FlickrPhotos";
-import {ItemsList, PageContainer} from "./SocketSearch";
+import {ItemsList} from "./SocketSearch";
 import {useBasicItemsSearch} from "../../hooks/useBasicItemsSearch";
 import {Photo, PhotoSortWrapper, SearchData, SearchStrategy} from "../../types";
 import {SubmitHandler} from "react-hook-form";
 import {useTimer} from "../../hooks/useTimer";
+import { PageContainer } from "../styles";
 
 type Props = {}
 const NormalSearch: FC<Props> = () => {

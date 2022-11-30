@@ -28,12 +28,12 @@ type Props = {
 export const SearchForm: FC<Props> = ({ submit, loadTime }) => {
   const defaultValues: SearchData = {
     query: '',
-    dateFrom: null,
-    dateTo: null,
+    date: new Date(),
     geo: undefined,
     geoScale: 5,
     titleScale: 1,
-    pagesToFetch: 60,
+    dateScale: 1,
+    pagesToFetch: 90,
     nameIncludesBonus: true
   }
   const { control, handleSubmit, setValue, watch, formState } = useForm<SearchData>({ defaultValues })
@@ -44,7 +44,7 @@ export const SearchForm: FC<Props> = ({ submit, loadTime }) => {
   }, [watch('geo')])
 
   return (
-    <Card sx={{ p: 4 }}>
+    <div>
       <Typography sx={{ mb: 3 }} variant={'h4'}>
         Flickr map search
       </Typography>
@@ -59,23 +59,11 @@ export const SearchForm: FC<Props> = ({ submit, loadTime }) => {
         />
 
         <Controller
-          name={'dateFrom'}
+          name={'date'}
           control={control}
           render={({ field: { onChange, ...rest } }) => (
             <DatePicker
-              label={'Date from'}
-              onChange={(ev) => onChange(ev)}
-              renderInput={(params) => <TextField fullWidth {...params} />}
-              {...rest}
-            />
-          )}
-        />
-        <Controller
-          name={'dateTo'}
-          control={control}
-          render={({ field: { onChange, ...rest } }) => (
-            <DatePicker
-              label={'Date to'}
+              label={'Date'}
               onChange={(ev) => onChange(ev)}
               renderInput={(params) => <TextField fullWidth {...params} />}
               {...rest}
@@ -116,6 +104,15 @@ export const SearchForm: FC<Props> = ({ submit, loadTime }) => {
               )}
             />
 
+            <Typography>Date scale</Typography>
+            <Controller
+              name={'dateScale'}
+              control={control}
+              render={({ field }) => (
+                <ScaleSlider sx={{mb: 4}} {...field} />
+              )}
+            />
+
             <Typography>Pages to load</Typography>
             <Controller
               name={'pagesToFetch'}
@@ -141,7 +138,7 @@ export const SearchForm: FC<Props> = ({ submit, loadTime }) => {
           </AccordionDetails>
         </Accordion>
       </StyledForm>
-    </Card>
+    </div>
   )
 }
 

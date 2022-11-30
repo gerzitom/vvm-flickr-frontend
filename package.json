@@ -32,7 +32,8 @@
     "react-timer-hook": "^3.0.5",
     "react-use-sockjs": "^0.0.2",
     "react-use-websocket": "^4.2.0",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "use-sockjs": "^2.6.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.3",

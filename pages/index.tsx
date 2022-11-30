@@ -1,12 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import dynamic from "next/dynamic";
 import styled from "styled-components";
 import {Button, Container, Typography} from "@mui/material";
 import {Box} from "@mui/system";
-const MainPage = dynamic(() => import('../components/pages/Main/Main'), {
-  ssr: false,
-})
 
 const Home: NextPage = () => {
   return (
@@ -24,7 +20,6 @@ const Home: NextPage = () => {
           <Button href={"/normal"} variant={'outlined'} size={'large'} sx={{mx: 2}}>Normal search strategy</Button>
         </Box>
       </Container>
-      {/*<MainPage/>*/}
     </StyledContainer>
   )
 }

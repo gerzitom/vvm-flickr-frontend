@@ -5,12 +5,12 @@ export type Location = {
 }
 export type SearchData = {
   query: string
-  dateFrom: Date | null
-  dateTo: Date | null
+  date: Date | null
   geo?: Location
   pagesToFetch: number
   geoScale: number
   titleScale: number
+  dateScale: number
   nameIncludesBonus: boolean
 }
 export type FormSearchValues = Omit<SearchData, 'geo'>
@@ -39,7 +39,7 @@ export type Photo = {
 export type PhotoScore = {
   geoDistance: number
   titleDistance: number
-  authorDistance: number
+  dateDistance: number
 }
 export type PhotoSortWrapper = {
   photo: Photo
