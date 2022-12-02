@@ -11,7 +11,7 @@ const SEARCH_URL = '/app/search'
 const initialState:SocketResponseProgress = {payload: [], progress: 0, totalPhotos: 0}
 export const useSocketItemsSearch = () => {
   const [socketItemsFromSearch, setSocketItemsFromSearch] = useState<SocketResponseProgress>(initialState)
-  const {startTimer, stopTimer, difference} = useTimer()
+  const {startTimer, stopTimer, difference, isRunning} = useTimer()
   const [loading, setLoading] = useState(false)
   const [connected, setConnected] = useState(false)
 
@@ -66,6 +66,7 @@ export const useSocketItemsSearch = () => {
     client: clientRef.current,
     connected,
     loadTime: difference,
+    isRunning,
     items: socketItemsFromSearch.payload,
     progress: socketItemsFromSearch.progress,
     totalPhotos: socketItemsFromSearch.totalPhotos,

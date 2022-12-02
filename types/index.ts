@@ -6,7 +6,7 @@ export type Location = {
 export type SearchData = {
   query: string
   date: Date | null
-  geo?: Location
+  geo: Location
   pagesToFetch: number
   geoScale: number
   titleScale: number

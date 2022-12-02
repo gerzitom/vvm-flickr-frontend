@@ -12,11 +12,13 @@ import {useTimer} from "../../hooks/useTimer";
 import {ItemsMap} from "../ItemsMap";
 import { PageContainer } from "../styles";
 import {Alert, Card, CircularProgress} from "@mui/material";
+import {useGeoPosition} from "../../hooks/useGeoPosition";
 
 type Props = {}
 const SocketSearch: FC<Props> = () => {
   const {items:itemsFromFlickr, loading: flickrLoading, searchFlickr} = useBasicItemsSearch<Photo>('http://localhost:8080/search/flickr')
-  const [center, setCenter] = useState<Location>()
+  const {location: center, setLocation: setCenter} = useGeoPosition()
+  console.log(center)
   const {
     items: socketItems,
     loading: socketLoading,
@@ -24,11 +26,12 @@ const SocketSearch: FC<Props> = () => {
     loadTime,
     progress,
     totalPhotos,
-    connected
+    connected,
+    isRunning
   } = useSocketItemsSearch()
   const submit:SubmitHandler<SearchData> = async (data: SearchData) => {
+    data.geo = center
     searchWithSocket(data)
-    setCenter(data?.geo)
     searchFlickr(data)
   }
 
@@ -39,11 +42,17 @@ const SocketSearch: FC<Props> = () => {
   return (
     <PageContainer>
       <Card sx={{p: 4}}>
-        <SearchForm submit={submit} loadTime={loadTime}/>
+        <SearchForm
+          submit={submit}
+          loadTime={loadTime}
+          loading={isRunning}
+          center={center}
+          setCenter={setCenter}
+        />
       </Card>
       <div>
         <SocketProgress progress={progress} totalPhotos={totalPhotos} loadTime={loadTime}/>
-        {center ? <ItemsMap center={center} items={socketItems}/> : <></>}
+        {(isRunning || progress !== 0) ? <ItemsMap center={center} items={socketItems}/> : <></>}
         <ItemsList>
           <SearchPhotos photos={socketItems} loading={socketLoading}/>
           <FlickrPhotos photos={itemsFromFlickr} loading={flickrLoading}/>
@@ -58,4 +67,5 @@ export const ItemsList = styled.div`
   display: grid;
   grid-template-columns: 3fr 2fr;
   column-gap: 1em;
+  margin-top: 1.5em;
 `

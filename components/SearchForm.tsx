@@ -4,7 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
-  Card, Checkbox,
+  Card, Checkbox, CircularProgress,
   FormControlLabel,
   Paper, Slider,
   TextField,
@@ -13,7 +13,7 @@ import {
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { DatePicker } from '@mui/x-date-pickers'
 import styled from 'styled-components'
-import {FormSearchValues, SearchData, SearchStrategy} from '../types'
+import {FormSearchValues, Location, SearchData, SearchStrategy} from '../types'
 import {MapComponent} from "./MapComponent";
 import L from "leaflet";
 import {PigeonMap} from "./map/PigeonMap";
@@ -23,13 +23,16 @@ import {ChooseFetchStrategy} from "./ChooseFetchStrategy";
 
 type Props = {
   submit: SubmitHandler<SearchData>,
+  center: Location,
   loadTime: string
+  loading?: boolean,
+  setCenter: (newCenter: Location) => void
 }
-export const SearchForm: FC<Props> = ({ submit, loadTime }) => {
+export const SearchForm: FC<Props> = ({ submit, loadTime, loading , center, setCenter}) => {
   const defaultValues: SearchData = {
     query: '',
     date: new Date(),
-    geo: undefined,
+    geo: center,
     geoScale: 5,
     titleScale: 1,
     dateScale: 1,
@@ -71,9 +74,9 @@ export const SearchForm: FC<Props> = ({ submit, loadTime }) => {
           )}
         />
         <TextField fullWidth disabled value={positionValue} label={"Geo"}/>
-        <PigeonMap position={watch('geo')} setLocation={(position) => setValue('geo', position)}/>
-        <Button variant={'contained'} type={'submit'}>
-          Search
+        <PigeonMap position={center} setLocation={setCenter}/>
+        <Button variant={'contained'} type={'submit'} disabled={loading}>
+          {loading ? <CircularProgress/> : 'Search'}
         </Button>
         <Typography variant={'overline'}>Load time: {loadTime}</Typography>
 

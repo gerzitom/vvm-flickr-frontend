@@ -18,7 +18,8 @@ export const ItemsMap: FC<Props> = ({center, items}) => {
   return (
     <Map
       height={500}
-      defaultCenter={myCenter} defaultZoom={8}
+      center={myCenter}
+      defaultZoom={10}
     >
       <Cluster>
         {items.reverse().map((item) => (

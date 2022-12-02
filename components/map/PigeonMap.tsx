@@ -3,21 +3,18 @@ import {Location} from "../../types";
 import { Map, Marker } from "pigeon-maps"
 import {useGeolocated} from "react-geolocated";
 import {CircularProgress} from "@mui/material";
+import {toPigeonCoords, toPigeonCoordsFromLocation} from "../../utility";
 
 type Props = {
-    position?: Location,
+    position: Location,
     setLocation: (newLocation: Location) => void
 }
 export const PigeonMap: FC<Props> = ({position, setLocation}) => {
-  const { coords, isGeolocationEnabled, getPosition, isGeolocationAvailable } = useGeolocated()
-  useEffect(() => getPosition(), [])
-  useEffect(() => {
-    if(coords) setLocation({lat: String(coords!.latitude), lng: String(coords!.longitude)})
-  }, [coords])
-  if(isGeolocationEnabled && !coords) return <CircularProgress/>
+  const center = toPigeonCoordsFromLocation(position)
   return (
     <Map height={300}
-         defaultCenter={[coords!.latitude, coords!.longitude]} defaultZoom={14}
+         center={center}
+         defaultZoom={14}
          onClick={({latLng}) => {
            setLocation({lat: String(latLng[0]), lng: String(latLng[1])})
          }}>

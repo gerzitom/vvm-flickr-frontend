@@ -3,7 +3,7 @@ import { differenceInSeconds } from 'date-fns'
 import {useStopwatch} from "react-timer-hook";
 
 export const useTimer = () => {
-  const {seconds, minutes, start, pause, reset} = useStopwatch({autoStart: false})
+  const {seconds, minutes, start, pause, reset, isRunning} = useStopwatch({autoStart: false})
 
   const startTimer = () => {
     reset()
@@ -16,5 +16,5 @@ export const useTimer = () => {
 
   const difference = `${seconds} s`
 
-  return {startTimer, stopTimer, difference}
+  return {startTimer, stopTimer, difference, isRunning}
 }

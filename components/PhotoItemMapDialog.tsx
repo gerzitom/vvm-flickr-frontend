@@ -22,7 +22,8 @@ export const PhotoItemMapDialog: FC<Props> = ({wrapper}) => {
           <Map
             width={600}
             height={500}
-            defaultCenter={center} defaultZoom={8}
+            defaultCenter={center}
+            defaultZoom={17}
           >
             <Marker
               anchor={center}
