@@ -18,6 +18,7 @@ import {Location, SearchData} from '../types'
 import {PigeonMap} from "./map/PigeonMap";
 import {ScaleSlider} from "./ScaleSlider";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {toPigeonCoordsFromLocation} from "../utility";
 
 type Props = {
   submit: SubmitHandler<SearchData>,
@@ -38,10 +39,10 @@ export const SearchForm: FC<Props> = ({ submit, loadTime, loading , center, setC
     nameIncludesBonus: true
   }
   const { control, handleSubmit, watch, formState } = useForm<SearchData>({ defaultValues })
+
   const positionValue = useMemo(() => {
-    const geo = watch('geo')
-    return [geo?.lat ?? 0, geo?.lng ?? 0]
-  }, [watch('geo')])
+    return toPigeonCoordsFromLocation(center)
+  }, [center])
 
   return (
     <div>

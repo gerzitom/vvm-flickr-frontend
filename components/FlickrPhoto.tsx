@@ -7,6 +7,7 @@ import {formatDate} from "../utility/formatters";
 
 type Props = {
   photo: Photo
+  children?: React.ReactElement
 }
 export const FlickrPhoto: FC<Props> = ({ children, photo }) => {
   return (

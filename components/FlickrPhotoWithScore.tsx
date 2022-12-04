@@ -1,14 +1,11 @@
-import React, { FC } from 'react'
-import { PhotoSortWrapper } from '../types'
-import { FlickrPhoto } from './FlickrPhoto'
+import React, {FC} from 'react'
+import {PhotoSortWrapper} from '../types'
+import {FlickrPhoto} from './FlickrPhoto'
 import {Box, Chip, ChipProps, Divider, Typography} from '@mui/material'
 import styled from 'styled-components'
-import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import TextFormatIcon from '@mui/icons-material/TextFormat';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import IconButton from '@mui/material/IconButton';
-import MapIcon from '@mui/icons-material/Map';
 import {PhotoItemMapDialog} from "./PhotoItemMapDialog";
 
 type Props = {
@@ -25,8 +22,7 @@ export const FlickrPhotoWithScore: FC<Props> = ({ wrapper }) => {
       <FlickrPhoto photo={wrapper.photo}>
         <ScoreContainer>
           <Divider sx={{ my: 1 }} />
-          {/*<Chip icon={<OfflineBoltIcon/>} label={wrapper.score} {...ChipsProps}/>*/}
-          <Typography variant={'overline'} sx={{mb: 1}}>Score: {wrapper.score}</Typography>
+          <Typography variant={'overline'} sx={{mb: 0}}>Score: {wrapper.score}</Typography>
           <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             {wrapper.scoreStats && (
               <div>
