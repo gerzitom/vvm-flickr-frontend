@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type {NextPage} from 'next'
 import Head from 'next/head'
 import styled from "styled-components";
 import {Button, Container, Typography} from "@mui/material";
@@ -17,7 +17,8 @@ const Home: NextPage = () => {
         <Typography>This lets you specify criteria what you want to search and this app will try its best to find it.</Typography>
         <Box sx={{display: 'flex', justifyContent: 'center', mt: 5}}>
           <Button href={"/socket"} variant={'contained'} size={'large'} sx={{mx: 2}}>Socket search strategy</Button>
-          <Button href={"/normal"} variant={'outlined'} size={'large'} sx={{mx: 2}}>Normal search strategy</Button>
+          <Button href={"/normal"} variant={'outlined'} size={'large'} sx={{mx: 2}}>Search strategy with parallelization</Button>
+          <Button href={"/simple"} variant={'outlined'} size={'large'} sx={{mx: 2}}>Search strategy without parallelization</Button>
         </Box>
       </Container>
     </StyledContainer>
