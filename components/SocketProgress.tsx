@@ -1,6 +1,5 @@
 import {Box, Card, LinearProgress, Typography} from "@mui/material";
 import React, {FC} from "react"
-import {SocketResponseProgress} from "../types";
 
 type Props = {
   totalPhotos: number,
