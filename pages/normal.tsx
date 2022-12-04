@@ -1,6 +1,7 @@
-import React, {FC} from "react"
+import React from "react"
 import {NextPage} from "next";
 import dynamic from "next/dynamic";
+
 const Page = dynamic(() => import('../components/pages/NormalSearch'), {
   ssr: false,
 })
@@ -9,7 +10,7 @@ const Page = dynamic(() => import('../components/pages/NormalSearch'), {
 const NormalSearchPage: NextPage = () => {
   return (
     <>
-      <Page/>
+      <Page simpleReranking={false}/>
     </>
   )
 }

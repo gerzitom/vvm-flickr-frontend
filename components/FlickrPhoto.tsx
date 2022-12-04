@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
-import { Photo } from '../types'
-import { Avatar, Card, Typography } from '@mui/material'
+import React, {FC} from 'react'
+import {Photo} from '../types'
+import {Avatar, Card, Typography} from '@mui/material'
 import styled from 'styled-components'
 import {Box} from "@mui/system";
 import {formatDate} from "../utility/formatters";
@@ -13,7 +13,7 @@ export const FlickrPhoto: FC<Props> = ({ children, photo }) => {
     <Card sx={{ my: 2 }}>
       <Container>
         <StyledImage>
-          <img src={photo.url} />
+          <img src={photo.url} alt={photo.title} />
         </StyledImage>
         <Text>
           <Typography variant={'body2'}>{photo.title}</Typography>
@@ -39,7 +39,9 @@ const Container = styled.div`
 `
 
 const StyledImage = styled.div`
+  min-height: 200px;
   img {
+    background: grey;
     width: 100%;
     height: 100%;
     object-fit: contain;
